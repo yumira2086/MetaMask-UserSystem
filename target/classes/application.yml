@@ -1,0 +1,17 @@
+
+spring:
+  datasource:
+  #一定要加上编码格式，不然插入中文乱码
+    url: jdbc:mysql://localhost:3306/metamasklogin?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 2086061
+    driver-class-name: com.mysql.jdbc.Driver
+
+  jpa:
+    hibernate:
+    #每次运行检查，如果没有表就自动创建，或者更新数据
+      ddl-auto: update
+      #控制台显示sql语句
+    show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect  #不加这句则默认为myisam引擎

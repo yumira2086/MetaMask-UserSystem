@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        var address = web3.eth.coinbase;
+
+        var onSigned = function(error,sign){
+            $.post("http://localhost:8080/user/login", {address:address, signature:sign})
+                .success(function(result) {
+                    if (result.code == 200){//登录成功
+                        alert("登录成功，uid:"+result.data);
+                    }else {
+                        alert(result.message)
+                    }
+                    console.log(result)
+                })
+                .error(function() {
+                    alert("error");
+                });
+        }
+
+        $(document).ready(function () {
+            $("#submit").click(function () {
+
+                $.post("http://localhost:8080/user/nonce", {address:address})
+                    .success(function(result) {
+                        if (result.code == 200){//登录成功
+                            //这里转成16进制来签名
+                            web3.personal.sign(web3.fromUtf8(result.data+""), address, onSigned);
+                        }else {
+                            alert(result.message)
+                        }
+                        console.log(result)
+                    })
+                    .error(function() {
+                        alert("error");
+                    });
+
+
+            });
+
+            $("#register").click(function () {
+                $.post("http://localhost:8080/user/register", {address:address})
+                    .success(function(result) {
+                        if (result.code == 200){//注册成功
+                            alert("注册成功，请登录")
+                        }else {
+                            alert(result.message)
+                        }
+                        console.log(result)
+                    })
+                    .error(function() {
+                        alert("error");
+                    });
+                });
+        });
+
+
+        stringToBytes = function( str ) {
+
+            var ch, st, re = [];
+            for (var i = 0; i < str.length; i++ ) {
+                ch = str.charCodeAt(i);  // get char
+                st = [];                 // set up "stack"
+
+                do {
+                    st.push( ch & 0xFF );  // push byte to stack
+                    ch = ch >> 8;          // shift value down by 1 byte
+                }
+
+                while ( ch );
+                // add stack contents to result
+                // done because chars have "wrong" endianness
+                re = re.concat( st.reverse() );
+            }
+            // return an array of bytes
+            return re;
+        }
+    </script>
+    <style>
+        span{
+            color: red;
+        }
+        .nanshou {
+            margin: auto 100px;
+        }
+        #span_special {
+            color: black;
+        }
+
+    </style>
+</head>
+<body>
+<div>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="row">
+                <div class="col-md-4 offset-md-4">
+                        <div class="nanshou">
+                        <button type="submit" class="btn btn-primary" id = "submit">
+                            提交
+                        </button>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <span id = "span_special">&nbsp;</span>
+                        <button type="button" class="btn btn-info" id = "register">
+                            注册
+                        </button>
+                        </div>
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
