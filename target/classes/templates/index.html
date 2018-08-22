@@ -31,9 +31,8 @@
                 $.post("http://localhost:8080/user/nonce", {address:address})
                     .success(function(result) {
                         if (result.code == 200){//登录成功
-                            //这里转成字符串来签名
+                            //这里转成16进制来签名
                             web3.personal.sign(web3.fromUtf8(result.data+""), address, onSigned);
-                            console.log(web3.fromUtf8(result.data+""))
                         }else {
                             alert(result.message)
                         }

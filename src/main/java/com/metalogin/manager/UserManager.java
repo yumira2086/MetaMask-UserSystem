@@ -58,8 +58,7 @@ public class UserManager {
 
     public User verifyUser(String address,String signature) throws ApiException {
         User user = findUserByAddress(address);
-        String result = DecodeMessage.verifySignature(user.getNonce() + "", signature);
-        if (address.equals(result)){//登录成功，马上修改nonce
+        if (DecodeMessage.verifySignature(address,user.getNonce() + "", signature)){//登录成功，马上修改nonce
             return updateNonce(user);
         }
         return null;
