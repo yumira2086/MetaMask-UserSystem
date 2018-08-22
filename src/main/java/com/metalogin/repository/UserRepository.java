@@ -22,8 +22,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "update User u set u.nonce = ?1 where u.address = ?2")
     int updateNonce(long nonce,String address);
 
-//    @Transactional
-//    @Modifying
-//    @Query(value = "update User u set u.nonce= ?1 where u.address= ?2")
-//    int updateNonce(String nonce, String address);
 }
