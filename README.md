@@ -28,7 +28,6 @@ coder受结城浩《图解密码技术》和以太坊账户系统的启发，突
     web3.personal.sign(web3.fromUtf8("123"), web3.eth.coinbase, console.log);
 
 敲下回车我们可以看到弹出窗口
-![](pic/2.png)
 
 MetaMask此时需要钱包持有者来确认这次请求，Message中显示的就是待签内容，我们确认签名后，在console得到签名数据
 ![](pic/3.png)
